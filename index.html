@@ -4,17 +4,8 @@
 </head>
 <body>
   <div id="app">
-    <template v-if="mostrar">
-      <h1>Este es mi título</h1>
-      <h2>Este es mi subtitulo</h2>
-      <a :href="url" target="_blank">Ir a {{ pagina }}</a>
-    </template>
-
-    <div v-show="mostrar">
-        <h1>Este es mi título</h1>
-        <h2>Este es mi subtitulo</h2>
-        <a :href="url" target="_blank">Ir a {{ pagina }}</a>
-      </div>
+    <h1>{{ titulo | uppercase }}</h1>
+    <h2>{{ subtitulo | capitalize }}</h2>
   </div>
 
   <script src="https://unpkg.com/vue"></script>
@@ -22,9 +13,16 @@
     let app = new Vue({
       el: '#app',
       data: {
-        url: 'https://google.com',
-        pagina: 'Google',
-        mostrar: true
+        titulo: 'Estás en Platzi',
+        subtitulo: 'estás viendo el curso de Vue.js'
+      },
+      filters: {
+        uppercase: function(str) {
+          return str.toUpperCase();
+        },
+        capitalize: function (str) {
+          return str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
+        }
       }
     })
   </script>
