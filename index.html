@@ -7,9 +7,7 @@
     <form @submit.prevent="submit" action="">
       <h2>¿Cuáles son tus cursos favoritos?</h2>
       <template v-for="curso in cursos">
-        <br>
-        <input v-model="cursosSeleccionados" type="checkbox" :id ="curso.value" :value="curso.value">
-        <label :for="curso.value">{{ curso.nombre }}</label>
+        <curso :curso = "curso" @checked="selectCurso"></curso>
       </template>      
       <hr>
       <button type="submit">Enviar</button>
@@ -18,6 +16,24 @@
 
   <script src="https://unpkg.com/vue"></script>
   <script type="text/javascript">
+    Vue.component('curso',{
+      props: [
+        'curso'
+      ],
+      methods: {
+        onchange: function(evt){
+          this.$emit('checked', this.curso.value, evt.target.checked)
+        }
+      },
+      template: `
+        <div>
+          <br>
+          <input type="checkbox" :id ="curso.value" :value="curso.value" @change="onchange">
+          <label :for="curso.value">{{ curso.nombre }}</label>
+        </div>
+      `
+    })
+
     let app = new Vue({
       el: '#app',
       data: {
@@ -44,6 +60,14 @@
       methods: {
         submit: function(){
           console.log(this.cursosSeleccionados)
+        },
+        selectCurso: function(curso, checked){
+          if(checked){
+            this.cursosSeleccionados.push(curso)
+          }else{
+            let index = this.cursosSeleccionados.indexOf(curso)
+            this.cursosSeleccionados.splice(index, 1)
+          }
         }
       }
     })
