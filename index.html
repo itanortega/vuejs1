@@ -4,21 +4,13 @@
 </head>
 <body>
   <div id="app">
-    <input type="text" name="nombre" placeholder="Ingresa tu nombre" v-model="nombre">
-    <p>
-      Tu nombre en mayúscula es: {{ nombre | uppercase }}
-    </p>
-
     <form @submit.prevent="submit" action="">
       <h2>¿Cuáles son tus cursos favoritos?</h2>
-      <input v-model="cursos" type="checkbox" id ="vue" value="vue">
-      <label for="vue">Curso de Vue.js</label>
-      <br>
-      <input v-model="cursos" type="checkbox" id ="seo" value="seo">
-      <label for="seo">Curso de Seo.js</label>
-      <br>
-      <input v-model="cursos" type="checkbox" id ="react" value="react">
-      <label for="react">Curso de React.js</label>
+      <template v-for="curso in cursos">
+        <br>
+        <input v-model="cursosSeleccionados" type="checkbox" :id ="curso.value" :value="curso.value">
+        <label :for="curso.value">{{ curso.nombre }}</label>
+      </template>      
       <hr>
       <button type="submit">Enviar</button>
     </form>
@@ -29,17 +21,29 @@
     let app = new Vue({
       el: '#app',
       data: {
-        nombre: '',
-        cursos: []
-      },
-      filters: {
-        uppercase: function(str){
-          return str.toUpperCase()
-        }
+        cursos: [
+          {
+            nombre: 'Curso de Introducción a Vue.js',
+            value: 'vue'
+          },
+          {
+            nombre: 'Curso de SEO',
+            value: 'seo'
+          },
+          {
+            nombre: 'Curso de React.js',
+            value: 'react'
+          },
+          {
+            nombre: 'Curso de Marketing',
+            value: 'marketing'
+          }
+        ],
+        cursosSeleccionados: []
       },
       methods: {
         submit: function(){
-          console.log(this.cursos)
+          console.log(this.cursosSeleccionados)
         }
       }
     })
